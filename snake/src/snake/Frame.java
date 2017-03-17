@@ -15,6 +15,7 @@ import java.awt.*;
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocation(dim.width / 4, dim.height / 4 );
 			frame.setVisible(true);
+			frame.getContentPane().add(new MainPanel());
 			
 		}
 
