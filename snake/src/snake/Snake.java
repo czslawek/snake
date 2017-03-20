@@ -1,13 +1,10 @@
 package snake;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
-
 
 public class Snake {
-	int snakeX;
-	int snakeY;
+	private int snakeX;
+	private int snakeY;
 	
 	public Snake(int snakeX, int snakeY){
 		this.snakeX = snakeX;
@@ -15,11 +12,14 @@ public class Snake {
 	}
 	
 	public void drawSnake(Graphics g){
-		//g.setColor(Color.WHITE);
-		g.fillRect(snakeX, snakeY, Frame.SCALE, Frame.SCALE);
+		g.fillRect(snakeX, snakeY, MainPanel.SCALE, MainPanel.SCALE);
 	}
-	
-	//
 
-	
+	public int getSnakeX() {
+		return snakeX;
+	}
+
+	public int getSnakeY() {
+		return snakeY;
+	}
 }
