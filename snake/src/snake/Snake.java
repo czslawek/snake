@@ -22,4 +22,11 @@ public class Snake {
 	public int getSnakeY() {
 		return snakeY;
 	}
+	
+	public boolean equals(Snake s) {
+		if (snakeX == s.getSnakeX() && snakeY == s.getSnakeY()){
+			return true;
+		}
+		return false;
+	}
 }

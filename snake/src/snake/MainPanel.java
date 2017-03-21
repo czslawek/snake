@@ -6,22 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel implements ActionListener, KeyListener {
 	
-	public ArrayList<Snake> snakes;
-	public Apple apple = new Apple();
+	public List<Snake> snakes;
 	public static final int SCALE = 20, SIZE = 600;
 	String dir = "DOWN";
 	Game game;
 	JFrame frame;
 	Timer timer;
+	JLabel score;
 	
 	
 	public MainPanel() {
-		frame = new JFrame("Snake");
+		frame = new JFrame("Wonsz");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		timer = new Timer(100, this);
 		
@@ -30,12 +30,22 @@ public class MainPanel extends JPanel implements ActionListener, KeyListener {
 		frame.setLocation(dim.width / 4, dim.height / 4 );
 		frame.setVisible(true);
 		frame.getContentPane().add(this);
-		frame.addKeyListener(this);
+		setFocusable(true);
+		frame.setResizable(false);
+		//requestFocusInWindow();
+		addKeyListener(this);
 		game = new Game();
 		snakes = Game.snakes;
+		score = new JLabel();
+		score.setForeground(Color.WHITE);
+		add(score);
 		timer.start();	
 	}
 	
+	public static void main(String[] args) {
+		new MainPanel();
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -43,51 +53,49 @@ public class MainPanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, SIZE, SIZE);
 
 		g.setColor(Color.WHITE);
-		for (Snake snake : snakes){
+		for (Snake snake : snakes.subList(1, snakes.size() )) {
 			snake.drawSnake(g);
 		}
-		g.setColor(Color.ORANGE);
-		g.fillRect(apple.getAppleX(), apple.getAppleY(), SCALE, SCALE);
+		g.setColor(Color.BLUE);
+		snakes.get(0).drawSnake(g);//head
 		
+		g.setColor(Color.ORANGE);
+		g.fillRect(game.apple.getAppleX(), game.apple.getAppleY(), SCALE, SCALE);
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		repaint();
+		
 		
 		int x = game.getHeadX();
 		int y = game.getHeadY();
 		
 		if (game.checkCollision()) {
-			frame.dispose();
+			//frame.dispose();
 			timer.stop();
 		}
+		game.eatApple();
+		score.setText("SCORE " + game.score);
 		
 		switch (dir) {
+			case "DOWN":
+				game.move(x, y + SCALE);
+				break;
+			case "RIGHT":
+				game.move(x + SCALE, y);
+				break;
+			case "UP":
+				game.move(x, y - SCALE);
+				break;
+			case "LEFT":
+				game.move(x - SCALE, y);
+				break;
 		
-		case "DOWN":
-			game.move(x, y + SCALE);
-			break;
-		case "RIGHT":
-			game.move(x + SCALE, y);
-			break;
-		case "UP":
-			game.move(x, y - SCALE);
-			break;
-		case "LEFT":
-			game.move(x - SCALE, y);
-			break;
-		
-	}
+		}
+		repaint();
 
 }
-
-
-	public static void main(String[] args) {
-		new MainPanel();
-	}
-
 
 	@Override
 	public void keyPressed(KeyEvent e) {
