@@ -35,7 +35,7 @@ public class MainPanel extends JPanel implements ActionListener, KeyListener {
 		//requestFocusInWindow();
 		addKeyListener(this);
 		game = new Game();
-		snakes = Game.snakes;
+		snakes = game.snakes;
 		score = new JLabel();
 		score.setForeground(Color.WHITE);
 		add(score);
@@ -73,10 +73,13 @@ public class MainPanel extends JPanel implements ActionListener, KeyListener {
 		
 		if (game.checkCollision()) {
 			//frame.dispose();
+			System.out.println("game over");
+			score.setText("SCORE " + game.score + " GAME OVER");
 			timer.stop();
-		}
+		} else {
 		game.eatApple();
 		score.setText("SCORE " + game.score);
+		}
 		
 		switch (dir) {
 			case "DOWN":
